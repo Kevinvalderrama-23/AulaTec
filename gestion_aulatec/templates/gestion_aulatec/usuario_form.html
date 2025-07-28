@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if form.instance.pk %}Editar Usuario{% else %}Crear Usuario{% endif %}</title>
+</head>
+<body>
+    <h1>{% if form.instance.pk %}Editar Usuario{% else %}Crear Nuevo Usuario{% endif %}</h1>
+
+   <form method="post">
+        {% csrf_token %} {# ¡MUY IMPORTANTE para la seguridad en Django! #}
+
+   <!--buscar la manera de que el campo Tipo de Identificación y 
+   el ROl salgan de tipo select -->
+        {{ form.as_p }} {# Renderiza los campos del formulario como párrafos #}
+
+        <button type="submit">Guardar</button>
+   </form>
+
+    <a href="{% url 'gestion_aulatec:usuario_list' %}">Volver a la lista de usuarios</a>
+</body>
+</html>

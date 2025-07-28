@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Iniciar Sesión{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+<body>
+
+  <section class="login-page">
+    <div class="login-left">
+        <img class="brand" src="{% static 'img/aula_tec_logo.jpeg' %}" alt="AulaTec">
+        <p class="description">
+        Transformamos la educación con tecnología, innovación y pasión por enseñar.
+      </p>
+    </div>
+
+    <div class="login-right">
+      <form method="post" class="login-form">
+        {% csrf_token %}
+        {% if messages %}
+          <ul class="messages">
+            {% for message in messages %}
+              <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn--primary full">Iniciar Sesión</button>
+      </form>
+
+      <div class="extra-links">
+        <p>¿No tienes cuenta? <a href="{% url 'gestion_aulatec:usuario_create' %}">Regístrate aquí</a></p>
+        <hr class="divider">
+        <p><a href="{% url 'gestion_aulatec:home' %}">Volver al Inicio</a></p>
+      </div>
+    </div>
+  </section>
+  
+</body>
+</html>

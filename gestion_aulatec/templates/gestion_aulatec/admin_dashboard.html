@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administrador</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f4f8;
+            color: #333;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h1, h2 {
+            color: #2c3e50;
+        }
+
+        a {
+            color: #2980b9;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            color: #1abc9c;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 12px;
+        }
+
+        .nav-links {
+            margin-top: 20px;
+        }
+
+        .nav-links p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Panel de Administrador</h1>
+        <p>Bienvenido, <strong>{{ request.user.Nombres }} {{ request.user.Apellidos }}</strong>. Tienes permisos de Administrador.</p>
+        
+        <div class="nav-links">
+            <!--<p><a href="{% url 'gestion_aulatec:home' %}">🏠 Volver al Inicio</a></p>-->
+            <p><a href="{% url 'gestion_aulatec:logout' %}">🚪 Cerrar Sesión</a></p>
+        </div>
+
+        <h2>Gestión de Usuarios</h2>
+        <ul>
+            <li><a href="{% url 'gestion_aulatec:usuario_list' %}">👤 Ver y Gestionar Usuarios</a></li>
+            <li><a href="{% url 'gestion_aulatec:grado_list' %}">🎓 Ver y Gestionar Grados</a></li>
+            <li><a href="{% url 'gestion_aulatec:estudiante_list' %}">📚 Ver y Gestionar Estudiantes</a></li>
+            <li><a href="{% url 'gestion_aulatec:docente_list' %}">👩‍🏫 Ver y Gestionar Docentes</a></li>
+            <li><a href="{% url 'gestion_aulatec:materia_list' %}">📖 Ver y Gestionar Materias</a></li>
+            <li><a href="{% url 'gestion_aulatec:matricula_list' %}">📖 Ver y Gestionar Matriculas</a></li>
+        </ul>
+    </div>
+</body>
+</html>

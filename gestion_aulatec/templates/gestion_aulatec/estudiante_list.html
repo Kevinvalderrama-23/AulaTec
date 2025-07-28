@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Estudiantes</title>
+</head>
+<body>
+    <h1>Estudiantes Registrados</h1>
+    <a href="{% url 'gestion_aulatec:estudiante_create' %}">Registrar Nuevo Estudiante</a>
+    <br><br>
+    <a href="{% url 'gestion_aulatec:usuario_list' %}">Ir a Usuarios</a> |
+    <a href="{% url 'gestion_aulatec:grado_list' %}">Ir a Grados</a>
+
+    {# Formulario de búsqueda #}
+    <form method="GET" action="{% url 'gestion_aulatec:estudiante_list' %}">
+        <input type="text" name="q" placeholder="Buscar por nombre de usuario..." value="{{ request.GET.q }}">
+        <button type="submit">Buscar</button>
+        {% if request.GET.q %}
+            <a href="{% url 'gestion_aulatec:estudiante_list' %}">Limpiar Búsqueda</a>
+        {% endif %}
+    </form>
+    <br>
+
+    {% if estudiantes %}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID Estudiante</th>
+                    <th>Usuario (Nombre)</th>
+                    <th>Grado Asignado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for estudiante in estudiantes %}
+                <tr>
+                    <td>{{ estudiante.IdEstudiante }}</td>
+                    <td>
+                        {% if estudiante.IdUsuario %}
+                            {{ estudiante.IdUsuario.Nombres }} {{ estudiante.IdUsuario.Apellidos }}
+                        {% else %}
+                            Usuario No Asignado
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if estudiante.IdGrado %}
+                            {{ estudiante.IdGrado.NumGrado }}{{ estudiante.IdGrado.NumCurso|default:"" }}
+                        {% else %}
+                            Sin Grado
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'gestion_aulatec:estudiante_update' pk=estudiante.IdEstudiante %}">Editar</a>
+                        <a href="{% url 'gestion_aulatec:estudiante_delete' pk=estudiante.IdEstudiante %}">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No hay estudiantes registrados aún o no se encontraron resultados para tu búsqueda.</p>
+    {% endif %}
+</body>
+</html>

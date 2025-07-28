@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Docente</title>
+</head>
+<body>
+    <h1>Panel de Docente</h1>
+    <p>Bienvenido, {{ request.user.Nombres }} {{ request.user.Apellidos }}. Tienes rol de Docente.</p>
+    <p><a href="{% url 'gestion_aulatec:home' %}">Volver al Inicio</a></p>
+    <p><a href="{% url 'gestion_aulatec:logout' %}">Cerrar Sesión</a></p>
+
+    <h2>Mis Materias</h2>
+    {% if materias %}
+        <ul>
+            {% for materia in materias %}
+                <li>{{ materia.NombreMateria }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No tienes materias asignadas aún.</p>
+    {% endif %}
+    </body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Estudiante</title>
+</head>
+<body>
+    <h1>Panel de Estudiante</h1>
+    <p>Bienvenido, {{ request.user.Nombres }} {{ request.user.Apellidos }}. Tienes rol de Estudiante.</p>
+    <p><a href="{% url 'gestion_aulatec:home' %}">Volver al Inicio</a></p>
+    <p><a href="{% url 'gestion_aulatec:logout' %}">Cerrar Sesión</a></p>
+
+    <h2>Mi Información de Estudiante</h2>
+    {% if estudiante_perfil %}
+        {% with estudiante=estudiante_perfil.first %}
+            <p><strong>Número de Identificación:</strong> {{ estudiante.IdUsuario.NumId }}</p>
+            <p><strong>Grado Asignado:</strong>
+                {% if estudiante.IdGrado %}
+                    {{ estudiante.IdGrado.NumGrado }}{{ estudiante.IdGrado.NumCurso|default:"" }}
+                {% else %}
+                    Sin Grado Asignado
+                {% endif %}
+            </p>
+            {% endwith %}
+    {% else %}
+        <p>Tu perfil de estudiante aún no ha sido creado o asignado.</p>
+    {% endif %}
+</body>
+</html>

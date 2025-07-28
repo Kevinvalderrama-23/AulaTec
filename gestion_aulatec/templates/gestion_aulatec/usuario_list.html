@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Usuarios</title>
+</head>
+
+<body>
+    <h1>Usuarios del Sistema</h1>
+    <a href="{% url 'gestion_aulatec:usuario_create' %}">Crear Nuevo Usuario</a>
+
+    {% if usuarios %}
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tipo ID</th>
+                <th>Número ID</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Rol</th>
+                <th>Celular</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for usuario in usuarios %}
+            <tr>
+                <td>{{ usuario.IdUsuario }}</td>
+                <td>{{ usuario.TipoId }}</td>
+                <td>{{ usuario.NumId }}</td>
+                <td>{{ usuario.Nombres }}</td>
+                <td>{{ usuario.Apellidos }}</td>
+                <td>{{ usuario.Rol }}</td>
+                <td>{{ usuario.Celular }}</td>
+                <td>
+                    <a href="{% url 'gestion_aulatec:usuario_update' pk=usuario.IdUsuario %}">Editar</a>
+                    <a href="{% url 'gestion_aulatec:usuario_delete' pk=usuario.IdUsuario %}">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No hay usuarios registrados aún.</p>
+    {% endif %}
+
+    <a name="" id="" class="btn btn-primary" href="{% url 'gestion_aulatec:docente_list' %}" role="button">Ir</a>
+    <a href="{% url 'gestion_aulatec:home' %}">Volver al inicio</a>
+
+</body>
+
+</html>

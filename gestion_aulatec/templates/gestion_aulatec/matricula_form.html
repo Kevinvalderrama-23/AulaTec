@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Nueva Matrícula</title>
+    <style>
+        /* Estilos CSS básicos para que el formulario sea legible */
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f7f6; }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 { color: #2c3e50; text-align: center; margin-bottom: 30px; }
+        h2 { color: #34495e; border-bottom: 2px solid #ecf0f1; padding-bottom: 10px; margin-top: 30px; margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #34495e;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group input[type="date"],
+        .form-group select,
+        .form-group textarea {
+            width: calc(100% - 22px); /* Ancho completo menos padding y borde */
+            padding: 10px;
+            border: 1px solid #c0d9e6; /* Borde más suave */
+            border-radius: 4px;
+            box-sizing: border-box; /* Incluir padding y borde en el ancho total */
+            font-size: 16px;
+        }
+        .form-group textarea {
+            resize: vertical; /* Permite redimensionar verticalmente */
+        }
+        .form-group input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2); /* Hace el checkbox un poco más grande */
+        }
+        .checkbox-label { /* Para etiquetas de checkbox que van después */
+            display: inline-block;
+            vertical-align: middle;
+            font-weight: normal; /* La etiqueta en sí no necesita ser bold si el campo lo es */
+            margin-left: 5px;
+        }
+        .errorlist {
+            color: #e74c3c; /* Rojo de error */
+            list-style-type: none;
+            padding-left: 0;
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+        .button {
+            background-color: #2ecc71; /* Verde de éxito */
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            display: block; /* Ocupa todo el ancho */
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 30px;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #27ae60; /* Verde más oscuro al pasar el mouse */
+        }
+        .messages { list-style-type: none; padding: 0; margin-bottom: 20px; }
+        .messages li { padding: 12px; margin-bottom: 10px; border-radius: 4px; font-weight: bold; }
+        .messages .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .messages .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .messages .info { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Proceso Completo de Matrícula Escolar</h1>
+        {# Bloque para mensajes de Django #}
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {# Fin del bloque de mensajes #}
+
+        <form method="post">
+            {% csrf_token %}
+
+            <h2>Información del Colegio y Año Lectivo</h2>
+            <div class="form-group">
+                {{ form.nombre_colegio.label_tag }}
+                {{ form.nombre_colegio }}
+                {% if form.nombre_colegio.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.nombre_colegio.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.anio_lectivo.label_tag }}
+                {{ form.anio_lectivo }}
+                {% if form.anio_lectivo.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.anio_lectivo.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.IdGrado.label_tag }}
+                {{ form.IdGrado }}
+                {% if form.IdGrado.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.IdGrado.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <h2>Información del Estudiante</h2>
+            <div class="form-group">
+                {{ form.estudiante_nombres.label_tag }}
+                {{ form.estudiante_nombres }}
+                {% if form.estudiante_nombres.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.estudiante_nombres.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.estudiante_apellidos.label_tag }}
+                {{ form.estudiante_apellidos }}
+                {% if form.estudiante_apellidos.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.estudiante_apellidos.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.estudiante_tipo_id.label_tag }}
+                {{ form.estudiante_tipo_id }}
+                {% if form.estudiante_tipo_id.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.estudiante_tipo_id.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.estudiante_num_id.label_tag }}
+                {{ form.estudiante_num_id }}
+                {% if form.estudiante_num_id.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.estudiante_num_id.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.estudiante_celular.label_tag }}
+                {{ form.estudiante_celular }}
+                {% if form.estudiante_celular.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.estudiante_celular.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.fecha_nacimiento_estudiante.label_tag }}
+                {{ form.fecha_nacimiento_estudiante }}
+                {% if form.fecha_nacimiento_estudiante.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.fecha_nacimiento_estudiante.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.lugar_nacimiento_estudiante.label_tag }}
+                {{ form.lugar_nacimiento_estudiante }}
+                {% if form.lugar_nacimiento_estudiante.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.lugar_nacimiento_estudiante.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.direccion_residencia_estudiante.label_tag }}
+                {{ form.direccion_residencia_estudiante }}
+                {% if form.direccion_residencia_estudiante.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.direccion_residencia_estudiante.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.barrio_vereda_estudiante.label_tag }}
+                {{ form.barrio_vereda_estudiante }}
+                {% if form.barrio_vereda_estudiante.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.barrio_vereda_estudiante.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.eps_seguro_medico_estudiante.label_tag }}
+                {{ form.eps_seguro_medico_estudiante }}
+                {% if form.eps_seguro_medico_estudiante.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.eps_seguro_medico_estudiante.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group checkbox-group">
+                {{ form.tiene_condicion_medica }}
+                <label for="{{ form.tiene_condicion_medica.id_for_label }}" class="checkbox-label">
+                    {{ form.tiene_condicion_medica.label }}
+                </label>
+                {% if form.tiene_condicion_medica.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.tiene_condicion_medica.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.especificacion_condicion_medica.label_tag }}
+                {{ form.especificacion_condicion_medica }}
+                {% if form.especificacion_condicion_medica.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.especificacion_condicion_medica.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <h2>Información del Acudiente</h2>
+            <div class="form-group">
+                {{ form.Acudiente_TipoId.label_tag }}
+                {{ form.Acudiente_TipoId }}
+                {% if form.Acudiente_TipoId.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.Acudiente_TipoId.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.Acudiente_NumId.label_tag }}
+                {{ form.Acudiente_NumId }}
+                {% if form.Acudiente_NumId.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.Acudiente_NumId.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.Acudiente_Nombres.label_tag }}
+                {{ form.Acudiente_Nombres }}
+                {% if form.Acudiente_Nombres.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.Acudiente_Nombres.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.Acudiente_Apellidos.label_tag }}
+                {{ form.Acudiente_Apellidos }}
+                {% if form.Acudiente_Apellidos.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.Acudiente_Apellidos.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.Acudiente_Celular.label_tag }}
+                {{ form.Acudiente_Celular }}
+                {% if form.Acudiente_Celular.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.Acudiente_Celular.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.Acudiente_Parentesco.label_tag }}
+                {{ form.Acudiente_Parentesco }}
+                {% if form.Acudiente_Parentesco.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.Acudiente_Parentesco.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <h2>Información Académica</h2>
+            <div class="form-group">
+                {{ form.ultimo_grado_cursado.label_tag }}
+                {{ form.ultimo_grado_cursado }}
+                {% if form.ultimo_grado_cursado.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.ultimo_grado_cursado.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.institucion_anterior.label_tag }}
+                {{ form.institucion_anterior }}
+                {% if form.institucion_anterior.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.institucion_anterior.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.ciudad_municipio_institucion_anterior.label_tag }}
+                {{ form.ciudad_municipio_institucion_anterior }}
+                {% if form.ciudad_municipio_institucion_anterior.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.ciudad_municipio_institucion_anterior.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group checkbox-group">
+                {{ form.repite_grado }}
+                <label for="{{ form.repite_grado.id_for_label }}" class="checkbox-label">
+                    {{ form.repite_grado.label }}
+                </label>
+                {% if form.repite_grado.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.repite_grado.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group checkbox-group">
+                {{ form.requiere_apoyo_pedagogico }}
+                <label for="{{ form.requiere_apoyo_pedagogico.id_for_label }}" class="checkbox-label">
+                    {{ form.requiere_apoyo_pedagogico.label }}
+                </label>
+                {% if form.requiere_apoyo_pedagogico.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.requiere_apoyo_pedagogico.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <h2>Autorizaciones y Documentos Requeridos</h2>
+
+            <div class="form-group checkbox-group">
+                {{ form.autoriza_tratamiento_datos }}
+                <label for="{{ form.autoriza_tratamiento_datos.id_for_label }}" class="checkbox-label">
+                    {{ form.autoriza_tratamiento_datos.label }}
+                </label>
+                {% if form.autoriza_tratamiento_datos.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.autoriza_tratamiento_datos.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <h3>Documentos Requeridos del Estudiante</h3>
+            <div class="form-group checkbox-group">
+                {{ form.doc_identidad_estudiante_presentado }}
+                <label for="{{ form.doc_identidad_estudiante_presentado.id_for_label }}" class="checkbox-label">
+                    {{ form.doc_identidad_estudiante_presentado.label }}
+                </label>
+                {% if form.doc_identidad_estudiante_presentado.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.doc_identidad_estudiante_presentado.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group checkbox-group">
+                {{ form.certificado_notas_anterior_presentado }}
+                <label for="{{ form.certificado_notas_anterior_presentado.id_for_label }}" class="checkbox-label">
+                    {{ form.certificado_notas_anterior_presentado.label }}
+                </label>
+                {% if form.certificado_notas_anterior_presentado.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.certificado_notas_anterior_presentado.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group checkbox-group">
+                {{ form.fotocopia_carnet_vacunacion_presentado }}
+                <label for="{{ form.fotocopia_carnet_vacunacion_presentado.id_for_label }}" class="checkbox-label">
+                    {{ form.fotocopia_carnet_vacunacion_presentado.label }}
+                </label>
+                {% if form.fotocopia_carnet_vacunacion_presentado.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.fotocopia_carnet_vacunacion_presentado.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group checkbox-group">
+                {{ form.fotocopia_eps_seguro_medico_presentado }}
+                <label for="{{ form.fotocopia_eps_seguro_medico_presentado.id_for_label }}" class="checkbox-label">
+                    {{ form.fotocopia_eps_seguro_medico_presentado.label }}
+                </label>
+                {% if form.fotocopia_eps_seguro_medico_presentado.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.fotocopia_eps_seguro_medico_presentado.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group checkbox-group">
+                {{ form.fotos_tamano_documento_presentadas }}
+                <label for="{{ form.fotos_tamano_documento_presentadas.id_for_label }}" class="checkbox-label">
+                    {{ form.fotos_tamano_documento_presentadas.label }}
+                </label>
+                {% if form.fotos_tamano_documento_presentadas.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.fotos_tamano_documento_presentadas.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group checkbox-group">
+                {{ form.certificado_medico_presentado }}
+                <label for="{{ form.certificado_medico_presentado.id_for_label }}" class="checkbox-label">
+                    {{ form.certificado_medico_presentado.label }}
+                </label>
+                {% if form.certificado_medico_presentado.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.certificado_medico_presentado.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <h3>Documentos del Acudiente</h3>
+            <div class="form-group checkbox-group">
+                {{ form.copia_cedula_acudiente_presentado }}
+                <label for="{{ form.copia_cedula_acudiente_presentado.id_for_label }}" class="checkbox-label">
+                    {{ form.copia_cedula_acudiente_presentado.label }}
+                </label>
+                {% if form.copia_cedula_acudiente_presentado.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.copia_cedula_acudiente_presentado.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group checkbox-group">
+                {{ form.comprobante_residencia_acudiente_presentado }}
+                <label for="{{ form.comprobante_residencia_acudiente_presentado.id_for_label }}" class="checkbox-label">
+                    {{ form.comprobante_residencia_acudiente_presentado.label }}
+                </label>
+                {% if form.comprobante_residencia_acudiente_presentado.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.comprobante_residencia_acudiente_presentado.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="button">Registrar Matrícula</button>
+        </form>
+
+    </div>
+</body>
+</html>

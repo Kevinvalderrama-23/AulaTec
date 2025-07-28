@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Grados</title>
+</head>
+
+<body>
+    <h1>Grados Registrados</h1>
+    <a href="{% url 'gestion_aulatec:grado_create' %}">Crear Nuevo Grado</a>
+    <br><br>
+    <a href="{% url 'gestion_aulatec:usuario_list' %}">Ir a Usuarios</a>
+
+    {% if grados %}
+    <table border="1" class="table table-primary">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Grado</th>
+                <th>Curso</th>
+                <th>Nro. Estudiantes</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for grado in grados %}
+            <tr>
+                <td>{{ grado.IdGrado }}</td>
+                <td>{{ grado.NumGrado }}</td>
+                <td>{{ grado.NumCurso }} </td>
+                <td>{{ grado.NumEstudiantes }}</td>
+                <td>
+                    <a href="{% url 'gestion_aulatec:grado_update' pk=grado.IdGrado %}">Editar</a>
+                    <a href="{% url 'gestion_aulatec:grado_delete' pk=grado.IdGrado %}">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No hay grados registrados aún</p>
+    {% endif %}
+</body>
+
+</html>
