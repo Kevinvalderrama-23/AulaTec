@@ -81,16 +81,16 @@ WSGI_APPLICATION = 'aulatec.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
+"""DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'aulatec',
-        'USER': 'root',
+        'NAME': '',
+        'USER': '',
         'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '3306',
     }
-}
+}"""
 
 
 
@@ -140,3 +140,9 @@ AUTH_USER_MODEL = 'gestion_aulatec.Usuario'
 LOGIN_URL = '/login/'
 
 LOGOUT_REDIRECT_URL = '/login/'
+
+# MODIFICA SETTINGS.PY PARA QUE LEA EL LOCAL
+try:
+    from .settings_local import *
+except ImportError:
+    pass

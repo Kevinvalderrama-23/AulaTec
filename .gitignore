@@ -1,5 +1,9 @@
+# === Archivos pycache de todo el proyecto ===
+**/__pycache__/
+
 # === Python ===
 *.py[cod]
+*.pyc
 __pycache__/
 
 # === Entornos virtuales ===
@@ -27,5 +31,5 @@ db.sqlite3
 # === Migraciones compiladas ===
 **/migrations/__pycache__/
 
-# === Archivos pycache de todo el proyecto ===
-**/__pycache__/
+# === Config local no versionada ===
+aulatec/settings_local.py
