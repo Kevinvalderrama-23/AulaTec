@@ -1,0 +1,31 @@
+# === Python ===
+*.py[cod]
+__pycache__/
+
+# === Entornos virtuales ===
+venv/
+env/
+
+# === VSCode / VSCodium ===
+.vscode/
+.vscodium/
+
+# === Archivos de sistema ===
+.DS_Store
+Thumbs.db
+
+# === Archivos sensibles ===
+*.log
+*.env
+.env.*
+
+# === Django ===
+db.sqlite3
+*.pot
+*.mo
+
+# === Migraciones compiladas ===
+**/migrations/__pycache__/
+
+# === Archivos pycache de todo el proyecto ===
+**/__pycache__/
