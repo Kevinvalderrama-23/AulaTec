@@ -23,7 +23,7 @@ if __name__ == '__main__':
 
 #Comandos para migrar:
 #python manage.py makemigrations tu_APP (crea la migracion)
-#python manage.py migrate.py tu_APP (aplica las migraciones a la base de datos )
+#python manage.py migrate tu_APP (aplica las migraciones a la base de datos )
 
 #Orden de como crear un modelo con su respectivo CRUD:
 # Crear el modelo(models.py), crear el formulario(forms.py),
@@ -33,6 +33,11 @@ if __name__ == '__main__':
 #MariaDb motor de la base de datos.
 
 
-#Tengo errores en la plantilla, matricula.list.html 
-#contraseña  #:quoXt}*p<M.
-#correo 12345678912
+#Credenciales para pruebas del rol estudiante
+# Pass: N"EHg^e'K&!A 
+# Id: 1031124260
+
+
+# Falta arreglar la contabilidad de estudiantes a los cursos.
+#realizar las pruebas faltantes.
+#Organizar mejor el proyecto

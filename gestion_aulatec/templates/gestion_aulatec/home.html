@@ -69,42 +69,6 @@
     </section>
 
     <main class="container">
-
-        <!--  SALUDO PERSONALIZADO
-        {% if request.user.is_authenticated %}
-        <section class="welcome">
-            <h2>¡Hola, {{ request.user.Nombres }} {{ request.user.Apellidos }}!</h2>
-            <p class="muted">Rol: {{ request.user.Rol }}</p>
-
-            <div class="welcome__links">
-                {% if request.user.Rol == 'Administrador' %}
-                <a href="{% url 'gestion_aulatec:admin_dashboard' %}" class="btn btn--secondary">Panel Administrador</a>
-                {% elif request.user.Rol == 'Docente' %}
-                <a href="{% url 'gestion_aulatec:docente_dashboard' %}" class="btn btn--secondary">Panel Docente</a>
-                {% elif request.user.Rol == 'Estudiante' %}
-                <a href="{% url 'gestion_aulatec:estudiante_dashboard' %}" class="btn btn--secondary">Panel
-                    Estudiante</a>
-                {% endif %}
-            </div>
-
-            <hr>
-
-            <nav class="entity-menu">
-                <span>Entidades:</span>
-                <a href="{% url 'gestion_aulatec:usuario_list' %}">Usuarios</a> |
-                <a href="{% url 'gestion_aulatec:grado_list' %}">Grados</a> |
-                <a href="{% url 'gestion_aulatec:estudiante_list' %}">Estudiantes</a> |
-                <a href="{% url 'gestion_aulatec:docente_list' %}">Docentes</a> |
-                <a href="{% url 'gestion_aulatec:materia_list' %}">Materias</a>
-            </nav>
-        </section>
-        {% else %}
-        <section class="welcome">
-            <p>Por favor, <a href="{% url 'gestion_aulatec:login' %}">inicia sesión</a> o <a
-                    href="{% url 'gestion_aulatec:usuario_create' %}">regístrate</a>.</p>
-        </section>
-        {% endif %}
-    -->
         <section class="highlights">
             <h2 class="section-title">Proyectos destacados</h2>
 
