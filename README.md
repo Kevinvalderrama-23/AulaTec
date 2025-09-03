@@ -17,7 +17,7 @@ AulaTec es una plataforma desarrollada en **Django** para la gestión académica
 ## Instalación y ejecución
 1. Clonar el repositorio:
    ```bash
-   git clone https://github.com/TU_USUARIO/AulaTec.git
+   https://github.com/Kevinvalderrama-23/AulaTec
    cd AulaTec
 
 ## Despliegue del proyecto (Crear entorno virtual e instalar dependencias)
