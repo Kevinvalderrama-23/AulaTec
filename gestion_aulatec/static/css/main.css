@@ -13,10 +13,19 @@
   --space-sm: 1rem;
   --space-md: 2rem;
   --space-lg: 4rem;
+  /* DASHBOARD_ADM UTILIDADES */
+  --color-primary: #0066cc;         
+  --color-primary-dark: #004999;
+  --color-bg: #f7f9fb;               
+  --color-card-bg: #ffffff;
+  --color-text: #333333;
+  --color-muted: #777777;
+  --radius: 6px;
+  --shadow-sm: 0 2px 4px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 8px rgba(0,0,0,.12);
+  --font-main: 'Roboto', sans-serif;
 }
-*,
-*::before,
-*::after { 
+*, *::before, *::after { 
   box-sizing: border-box; 
   margin: 0; 
   padding: 0; 
@@ -25,10 +34,8 @@ html {
   scroll-behavior: smooth; 
 }
 body { 
-  font-family: 'Inter', 
-  sans-serif; line-height: 1.6; 
-  background: #fff; 
-  color: #1d1d1d; 
+  font-family: var(--font-main);
+  line-height: 1.5;
 }
 img { 
   max-width: 100%; 
@@ -70,13 +77,13 @@ img {
   z-index: 10;
 }
 .navbar__logo img {
-  height: 35px;
+  height: 30px;
   width: auto;
   object-fit: contain;
 }
 .navbar__links {
   list-style: none;
-  display: flex;
+  display: flex;  
   gap: var(--space-md);
 }
 .navbar__links a {
@@ -84,14 +91,53 @@ img {
   color: #1d1d1d;
   font-weight: 500;
 }
-.navbar__links a:hover {
-  color: var(--clr-primary); 
-}
 .navbar__user {
   margin-right: var(--space-sm);
   font-weight: 600; 
 }
-
+/* BOTONES NUEVOS CON ANIMACIONES */
+.button {
+  margin: 0;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  --border-right: 2px;
+  --text-stroke-color: rgba(0, 0, 0, 0.6);
+  --animation-color: var(--clr-primary-hover);
+  --fs-size: 1em;
+  letter-spacing: 3px;
+  text-decoration: none;
+  font-size: var(--fs-size);
+  font-family: "Arial";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+.hover-text {
+  position: absolute;
+  box-sizing: border-box;
+  content: attr(data-text);
+  color: var(--animation-color);
+  width: 0%;
+  inset: 0;
+  border-right: var(--border-right) solid var(--animation-color);
+  overflow: hidden;
+  transition: 0.5s;
+  -webkit-text-stroke: 1px var(--animation-color);
+}
+/* hover */
+.button:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 23px var(--animation-color))
+}
+a.button {
+  text-decoration: none;
+  display: inline-block;
+}
+/* FIN BOTOENES ANIMADOS */
 /* Movile navbar */
 .navbar__toggle {
   display: none;
@@ -149,62 +195,72 @@ img {
 }
 
 /* HERO */
-.hero--bg {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.hero {
   position: relative;
-  height: 80vh;
-  background: url('../img/hero-0.jpeg') no-repeat center center/cover;
-  color: white;
-  overflow: hidden;
-  border-radius: var(--radius-md);
-}
-.hero__overlay {
-  background: rgba(0, 0, 0, 0.3);
+  height: 100vh;
   width: 100%;
-  height: 100%;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--space-lg);
-}
-.hero__content {
+  color: white;
   text-align: center;
-  max-width: 700px;
-  z-index: 2;
-  margin-left: var(--space-xl); 
 }
-.hero__content h1 {
+.hero video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0,0,0,0.6);
+  z-index: -1;
+}
+.hero-content {
+  transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+}
+.hero h1 {
   font-size: 3rem;
-  color: #fff;
-  margin-bottom: var(--space-sm);
+  margin-bottom: 20px;
 }
-.hero__content p {
+.hero p {
   font-size: 1.2rem;
-  color: #fff;
-  margin-bottom: var(--space-md);
+  margin-bottom: 30px;
+}
+.btn {
+  background: #00979D;
+  color: white;
+  padding: 12px 24px;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 8px;
+  transition: background 0.3s ease;
+}
+.btn:hover {
+  background: #00787a;
+}
+    /* Sección extra para scroll */
+.content {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
 }
 @media (max-width: 768px) {
-  .hero--bg {
-    height: 60vh;
-  }
-  .hero__content h1 {
-    font-size: 2rem;
-  }
-  .hero__content p {
-    font-size: 1rem;
-  }
+  .hero h1 { font-size: 2rem; }
+  .hero p { font-size: 1rem; }
+  .btn { padding: 10px 18px; font-size: 0.9rem; }
 }
-
-/* WELCOME SECTION */
-/* .welcome { margin: var(--space-lg) 0; }
-.welcome h2 { font-size: var(--fs-lg); margin-bottom: var(--space-xs); }
-.welcome .muted { color: var(--clr-muted); margin-bottom: var(--space-sm); }
-.welcome__links { margin-bottom: var(--space-sm); }
-.entity-menu { margin-top: var(--space-sm); }
-.entity-menu a { color: var(--clr-secondary); text-decoration: none; }
-.entity-menu a:hover { text-decoration: underline; } */
 
 /* HIGHLIGHTS */
 .card-grid.futuristic .card {
@@ -266,6 +322,7 @@ img {
   color: var(--clr-muted);
   margin-bottom: var(--space-sm); 
 }
+
 /* FOOTER */
 .footer {
   background: #f8f8f8;
@@ -280,6 +337,19 @@ img {
   .hero { height: 60vh; }
   .hero h1 { font-size: 1.8rem; }
   .hero p  { font-size: 1rem; }
+}
+
+/* Clase genérica para animaciones de aparición */
+.appear {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity .6s ease-out, transform .6s ease-out;
+}
+
+/* Estado activo (cuando la sección está en viewport) */
+.appear.visible {
+  opacity: 1;
+  transform: none;
 }
 
 /* -------------------- CSS DE LOGIN.HTML -------------------- */
@@ -345,4 +415,501 @@ img {
   height: 1px;
   background-color: #ccc;
   margin: 0.9rem 0;
+}
+
+/* -------------------- CSS DE DASHBOARD_ADM.HTML -------------------- */
+/* Dark mode opcional (respeta la preferencia del usuario) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-primary: #3399ff;
+    --color-bg: #1e1e1e;
+    --color-card-bg: #262626;
+    --color-text: #e0e0e0;
+    --color-muted: #aaaaaa;
+  }
+}
+.top-bar {
+    background: var(--color-primary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    height: 60px;
+    box-shadow: var(--shadow-sm);
+}
+.top-bar .logo {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+}
+.top-bar .logo span {
+    margin-left: 65px;
+    font-size: 1.2rem;
+}
+.top-bar .top-nav a {
+    color: #fff;
+    margin-left: 16px;
+    text-decoration: none;
+    font-weight: 400;
+}
+.top-bar .top-nav a:hover {
+    opacity: .85;
+}
+.wrapper {
+    display: flex;
+    min-height: calc(100vh - 60px);   /* resta la altura del header */
+}
+.sidebar {
+    width: 240px;
+    background: #fff;
+    border-right: 1px solid #e0e0e0;
+    padding-top: 20px;
+    overflow-y: auto;
+}
+.menu {
+    list-style: none;
+}
+.menu li a {
+    display: block;
+    padding: 12px 20px;
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 500;
+}
+.menu li a.active,
+.menu li a:hover {
+    background: #e6f2ff;
+}
+.content {
+  flex: 1;
+  padding: 35px;
+  background: var(--color-bg);
+  color: #1d1d1d; 
+  color: var(--color-text);
+}
+.welcome h1 {
+    font-size: var(--fs-xl);
+    color: var(--color-primary);
+    margin-bottom: .5rem;
+}
+.welcome p {
+    margin-bottom: var(--fs-lg);
+    color: var(--color-muted);
+}
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+.card {
+    background: var(--color-card-bg);
+    border-radius: var(--radius);
+    padding: 18px;
+    box-shadow: var(--shadow-sm);
+    text-decoration: none;
+    color: var(--color-text);
+    transition: transform .15s ease, box-shadow .15s ease;
+}
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+.card h2 {
+    font-size: 1.1rem;
+    margin-bottom: .4rem;
+    color: var(--color-primary);
+}
+.card p {
+    font-size: .9rem;
+    color: var(--color-muted);
+}
+@media (max-width: 768px) {
+    .wrapper {
+        flex-direction: column;
+    }
+    .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #e0e0e0;
+    }
+}
+/* -------------------- CSS DE USUARIO_LIST.HTML -------------------- */
+/* -------- Botones (sobrescribe los genéricos solo aquí -------- */
+.users-page .btn {
+    display: inline-block;
+    padding: 1px 15px;
+    border-radius: var(--radius);
+    font-weight: 500;
+    text-decoration: none;
+    transition: background .15s ease, color .15s ease;
+    cursor: pointer;
+}
+.centerh1 {
+  font-size: var()var(--fs-xl);
+  text-align: center;
+}
+.users-page .btn-primary {
+    background: var(--color-primary);
+    color: #fff;
+}
+.users-page .btn-primary:hover { background: var(--color-primary-dark); }
+
+.users-page .btn-secondary {
+    background: #3399ff;
+    color: #fff;
+}
+.users-page .btn-secondary:hover { background: #267acc; }
+
+.users-page .btn-outline {
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+}
+.users-page .btn-outline:hover {
+    background: rgba(0,102,204,.08);
+}
+
+/* -------- Tabla de usuarios ------------------------------------ */
+.users-page .styled-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 9 8px;               /* espacio entre filas */
+    margin-top: 5rem;
+}
+.users-page .styled-table th,
+.users-page .styled-table td {
+    padding: 12px 16px;
+    text-align: left;
+}
+.users-page .styled-table thead th {
+    background: var(--color-primary);
+    color: #fff;
+    font-weight: 500;
+    border-radius: var(--radius) var(--radius) 0 0;
+}
+.users-page .styled-table tbody tr {
+    background: var(--color-card-bg);
+    box-shadow: var(--shadow-sm);
+    transition: transform .12s ease, box-shadow .12s ease;
+}
+.users-page .styled-table tbody tr:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+.users-page .styled-table tbody tr td {
+    border-bottom: 1px solid #e0e0e0;
+}
+.users-page .styled-table tbody tr:last-child td { border-bottom: none; }
+
+/* -------- Acciones (Editar / Eliminar) ----------------------- */
+.users-page .actions .action-link {
+    margin-right: 12px;
+    font-size: .9rem;
+    text-decoration: none;
+}
+.users-page .actions .edit   { color: #0066cc; }
+.users-page .actions .delete { color: #d32f2f; }
+.users-page .actions .action-link:hover { opacity: .85; }
+
+/* -------- Mensaje vacío -------------------------------------- */
+.users-page .empty-msg {
+    margin-top: 2rem;
+    font-style: italic;
+    color: var(--color-muted);
+}
+
+/* -------- Navegación inferior (botones) ---------------------- */
+.users-page .nav-bottom {
+    margin-top: 2rem;
+    display: flex;
+    gap: 12px;
+}
+
+/* -------- Sección de bienvenida (título y botón) ------------ */
+.users-page .welcome h1 {
+    margin-bottom: .5rem;
+    font-size: 2rem;
+    color: var(--color-primary);
+}
+.users-page .welcome p {
+    margin-top: .5rem;
+}
+
+/* -------- Formularios (campo select) ------------------------ */
+.users-page form {
+    max-width: 720px;
+    margin: 1.5rem auto;
+    background: var(--color-card-bg);
+    padding: 1.5rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+}
+.users-page form p {
+    margin-bottom: 1rem;
+}
+.users-page form label {
+    font-weight: 500;
+    display: block;
+    margin-bottom: .3rem;
+}
+.users-page form input,
+.users-page form select,
+.users-page form textarea {
+    width: 100%;
+    padding: .45rem .6rem;
+    border: 1px solid #ccc;
+    border-radius: var(--radius);
+    font-size: .95rem;
+}
+.users-page form button[type="submit"] {
+    margin-top: .8rem;
+}
+
+/* -------- Confirmación de borrado ---------------------------- */
+.users-page .confirm-box {
+    max-width: 540px;
+    margin: 2rem auto;
+    background: var(--color-card-bg);
+    padding: 1.5rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    text-align: center;
+}
+.users-page .confirm-box h1 {
+    margin-bottom: .8rem;
+}
+.users-page .confirm-box p {
+    margin: 1rem 0;
+}
+.users-page .confirm-box button,
+.users-page .confirm-box a {
+    margin: .4rem;
+}
+
+/* Botón rojo para confirmar eliminación */
+.users-page .btn-delete {
+    background: #d32f2f;
+    color: #fff;
+}
+.users-page .btn-delete:hover { background: #b71c1c; }
+
+/* -------- Responsividad (solo para usuarios) ----------------- */
+@media (max-width: 768px) {
+    .users-page .styled-table th,
+    .users-page .styled-table td { padding: 8px 10px; }
+    .users-page .welcome h1 { font-size: 1.6rem; }
+}
+
+/* -------------------- CSS DE GRADOS.HTML -------------------- */
+/* ---------- Botones (solo para esta sección) ---------- */
+.grades-page .btn {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: var(--radius);
+    font-weight: 500;
+    text-decoration: none;
+    transition: background .15s ease, color .15s ease;
+    cursor: pointer;
+}
+.grades-page .btn-primary {
+    background: var(--color-primary);
+    color: #fff;
+}
+.grades-page .btn-primary:hover { background: var(--color-primary-dark); }
+
+.grades-page .btn-outline {
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+}
+.grades-page .btn-outline:hover {
+    background: rgba(0,102,204,.08);
+}
+
+/* ---------- Tabla de grados ---------- */
+.grades-page .styled-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+    margin-top: 1rem;
+}
+.grades-page .styled-table th,
+.grades-page .styled-table td {
+    padding: 12px 16px;
+    text-align: left;
+}
+.grades-page .styled-table thead th {
+    background: var(--color-primary);
+    color: #fff;
+    font-weight: 500;
+    border-radius: var(--radius) var(--radius) 0 0;
+}
+.grades-page .styled-table tbody tr {
+    background: var(--color-card-bg);
+    box-shadow: var(--shadow-sm);
+    transition: transform .12s ease, box-shadow .12s ease;
+}
+.grades-page .styled-table tbody tr:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+.grades-page .styled-table tbody tr td {
+    border-bottom: 1px solid #e0e0e0;
+}
+.grades-page .styled-table tbody tr:last-child td { border-bottom: none; }
+
+/* ---------- Acciones (Editar / Eliminar) ---------- */
+.grades-page .actions .action-link {
+    margin-right: 12px;
+    font-size: .9rem;
+    text-decoration: none;
+}
+.grades-page .actions .edit   { color: #0066cc; }
+.grades-page .actions .delete { color: #d32f2f; }
+.grades-page .actions .action-link:hover { opacity: .85; }
+
+/* ---------- Mensaje vacío ---------- */
+.grades-page .empty-msg {
+    margin-top: 2rem;
+    font-style: italic;
+    color: var(--color-muted);
+}
+
+/* ---------- Navegación inferior (botones) ---------- */
+.grades-page .nav-bottom {
+    margin-top: 2rem;
+    display: flex;
+    gap: 12px;
+}
+
+/* ---------- Cabecera de la página ---------- */
+.grades-page .welcome h1 {
+    margin-bottom: .5rem;
+    font-size: 2rem;
+    color: var(--color-primary);
+}
+.grades-page .welcome p {
+    margin-top: .5rem;
+}
+
+/* ---------- Responsividad ---------- */
+@media (max-width: 768px) {
+    .grades-page .styled-table th,
+    .grades-page .styled-table td { padding: 8px 10px; }
+    .grades-page .welcome h1 { font-size: 1.6rem; }
+}
+/* -------------------- CSS DE ESTUDIANTES.HTML -------------------- */
+/* ---------- Botones ---------- */
+.students-page .btn {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: var(--radius);
+    font-weight: 500;
+    text-decoration: none;
+    transition: background .15s ease, color .15s ease;
+    cursor: pointer;
+}
+.students-page .btn-primary {
+    background: var(--color-primary);
+    color: #fff;
+}
+.students-page .btn-primary:hover { background: var(--color-primary-dark); }
+
+.students-page .btn-outline {
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+}
+.students-page .btn-outline:hover {
+    background: rgba(0,102,204,.08);
+}
+
+/* ---------- Tabla ---------- */
+.students-page .styled-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+    margin-top: 1rem;
+}
+.students-page .styled-table th,
+.students-page .styled-table td {
+    padding: 12px 16px;
+    text-align: left;
+}
+.students-page .styled-table thead th {
+    background: var(--color-primary);
+    color: #fff;
+    font-weight: 500;
+    border-radius: var(--radius) var(--radius) 0 0;
+}
+.students-page .styled-table tbody tr {
+    background: var(--color-card-bg);
+    box-shadow: var(--shadow-sm);
+    transition: transform .12s ease, box-shadow .12s ease;
+}
+.students-page .styled-table tbody tr:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+.students-page .styled-table tbody tr td {
+    border-bottom: 1px solid #e0e0e0;
+}
+.students-page .styled-table tbody tr:last-child td { border-bottom: none; }
+
+/* ---------- Acciones (Editar / Eliminar) ---------- */
+.students-page .actions .action-link {
+    margin-right: 12px;
+    font-size: .9rem;
+    text-decoration: none;
+}
+.students-page .actions .edit   { color: #0066cc; }
+.students-page .actions .delete { color: #d32f2f; }
+.students-page .actions .action-link:hover { opacity: .85; }
+
+/* ---------- Mensaje vacío ---------- */
+.students-page .empty-msg {
+    margin-top: 2rem;
+    font-style: italic;
+    color: var(--color-muted);
+}
+
+/* ---------- Formulario de búsqueda ---------- */
+.students-page .search-form {
+    margin: 1rem 0;
+    display: flex;
+    gap: .5rem;
+    flex-wrap: wrap;
+}
+.students-page .search-form input[type="text"] {
+    flex: 1 1 200px;
+    padding: .45rem .6rem;
+    border: 1px solid #ccc;
+    border-radius: var(--radius);
+}
+.students-page .search-form button,
+.students-page .search-form a {
+    padding: .45rem .9rem;
+    border-radius: var(--radius);
+}
+
+/* ---------- Cabecera de la página ---------- */
+.students-page .welcome h1 {
+    margin-bottom: .5rem;
+    font-size: 2rem;
+    color: var(--color-primary);
+}
+.students-page .welcome p {
+    margin-top: .5rem;
+}
+
+/* ---------- Navegación inferior ---------- */
+.students-page .nav-bottom {
+    margin-top: 2rem;
+    display: flex;
+    gap: 12px;
+}
+
+/* ---------- Responsividad ---------- */
+@media (max-width: 768px) {
+    .students-page .styled-table th,
+    .students-page .styled-table td { padding: 8px 10px; }
+    .students-page .welcome h1 { font-size: 1.6rem; }
 }

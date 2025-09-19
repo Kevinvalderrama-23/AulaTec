@@ -1,21 +1,62 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% if form.instance.pk %}Editar Grado{% else %}Crear Grado{% endif %}</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>{% if form.instance.pk %}Editar Grado{% else %}Crear Nuevo Grado{% endif %}</h1>
 
-    <form method="post">
-        {% csrf_token %}
+<header class="top-bar">
+    <div class="logo">
+        <img src="{% static 'img/aula_tec_logo.png' %}" alt="Logo" height="30">
+        <span>Gestión de Grados</span>
+    </div>
+    <nav class="top-nav">
+        <a href="{% url 'gestion_aulatec:home' %}">🏠 Inicio</a>
+        <a href="{% url 'gestion_aulatec:logout' %}">🚪 Cerrar sesión</a>
+    </nav>
+</header>
 
-        {{ form.as_p }}
+<div class="wrapper">
 
-        <button type="submit">Guardar</button>
-    </form>
+    <aside class="sidebar">
+        <ul class="menu">
+            <li><a href="{% url 'gestion_aulatec:admin_dashboard' %}">Resumen</a></li>
+            <li><a href="{% url 'gestion_aulatec:usuario_list' %}">👤 Usuarios</a></li>
+            <li><a href="{% url 'gestion_aulatec:grado_list' %}" class="active">🎓 Grados</a></li>
+            <li><a href="{% url 'gestion_aulatec:estudiante_list' %}">📚 Estudiantes</a></li>
+            <li><a href="{% url 'gestion_aulatec:docente_list' %}">👩‍🏫 Docentes</a></li>
+            <li><a href="{% url 'gestion_aulatec:materia_list' %}">📖 Materias</a></li>
+            <li><a href="{% url 'gestion_aulatec:matricula_list' %}">🗂️ Matrículas</a></li>
+        </ul>
+    </aside>
 
-    <a href="{% url 'gestion_aulatec:grado_list' %}">Volver a la lista de grados</a>    
+    <main class="content">
+
+        <div class="grades-page">
+
+            <section class="welcome">
+                <h1>{% if form.instance.pk %}Editar Grado{% else %}Crear Nuevo Grado{% endif %}</h1>
+            </section>
+
+            <form method="post">
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a href="{% url 'gestion_aulatec:grado_list' %}"
+                   class="btn btn-outline">Cancelar</a>
+            </form>
+
+        </div><!-- /.grades-page -->
+
+    </main>
+</div>
+
 </body>
 </html>

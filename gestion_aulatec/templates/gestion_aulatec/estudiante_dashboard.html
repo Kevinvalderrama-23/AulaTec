@@ -1,11 +1,87 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Estudiante</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
+
+<header class="top-bar">
+    <div class="logo">
+        <img src="{% static 'img/aula_tec_logo.png' %}" alt="Logo" height="30">
+        <span>Panel de Estudiante</span>
+    </div>
+    <nav class="top-nav">
+        <a href="{% url 'gestion_aulatec:home' %}">🏠 Inicio</a>
+        <a href="{% url 'gestion_aulatec:logout' %}">🚪 Cerrar sesión</a>
+    </nav>
+</header>
+
+<div class="wrapper">
+
+    <aside class="sidebar">
+        <ul class="menu">
+            <li><a href="{% url 'gestion_aulatec:admin_dashboard' %}">Resumen</a></li>
+            <li><a href="{% url 'gestion_aulatec:usuario_list' %}">👤 Usuarios</a></li>
+            <li><a href="{% url 'gestion_aulatec:grado_list' %}">🎓 Grados</a></li>
+            <li><a href="{% url 'gestion_aulatec:estudiante_list' %}">📚 Estudiantes</a></li>
+            <li><a href="{% url 'gestion_aulatec:docente_list' %}">👩‍🏫 Docentes</a></li>
+            <li><a href="{% url 'gestion_aulatec:materia_list' %}">📖 Materias</a></li>
+            <li><a href="{% url 'gestion_aulatec:matricula_list' %}">🗂️ Matrículas</a></li>
+        </ul>
+    </aside>
+
+   <main class="content">
+
+        <div class="students-page">
+            <section class="welcome">
+                <h1>Panel de Estudiante</h1>
+                <p>
+                    Bienvenido, <strong>{{ request.user.Nombres }} {{ request.user.Apellidos }}</strong>.
+                    Tu rol es <em>Estudiante</em>.
+                </p>
+            </section>
+
+            <section class="profile-info">
+                <h2>Mi Información de Estudiante</h2>
+
+                {% if estudiante_perfil %}
+                    {% with estudiante=estudiante_perfil.first %}
+                        <p><strong>Número de identificación:</strong> {{ estudiante.IdUsuario.NumId }}</p>
+
+                        <p><strong>Grado asignado:</strong>
+                            {% if estudiante.IdGrado %}
+                                {{ estudiante.IdGrado.NumGrado }}{{ estudiante.IdGrado.NumCurso|default:"" }}
+                            {% else %}
+                                <em>Sin grado asignado</em>
+                            {% endif %}
+                        </p>
+                    {% endwith %}
+                {% else %}
+                    <p class="empty-msg">
+                        Tu perfil de estudiante aún no ha sido creado o asignado.
+                    </p>
+                {% endif %}
+            </section>
+
+            {# ----------- ENLACES DE NAVEGACIÓN ----------- #}
+            <div class="nav-bottom">
+                <a href="{% url 'gestion_aulatec:home' %}"
+                   class="btn btn-outline">Volver al inicio</a>
+                <a href="{% url 'gestion_aulatec:estudiante_list' %}"
+                   class="btn btn-primary">Ver lista de estudiantes</a>
+            </div>
+
+        </div><!-- /.students-page -->
+
+    </main>
+</div>
+
+
     <h1>Panel de Estudiante</h1>
     <p>Bienvenido, {{ request.user.Nombres }} {{ request.user.Apellidos }}. Tienes rol de Estudiante.</p>
     <p><a href="{% url 'gestion_aulatec:home' %}">Volver al Inicio</a></p>

@@ -11,7 +11,9 @@
 
   <section class="login-page">
     <div class="login-left">
-        <img class="brand" src="{% static 'img/aula_tec_logo.jpeg' %}" alt="AulaTec">
+      <a href="{% url 'gestion_aulatec:home' %}">
+        <img src="{% static 'img/aula_tec_logo.png' %}" alt="AulaTec">
+      </a>
         <p class="description">
         Transformamos la educación con tecnología, innovación y pasión por enseñar.
       </p>
@@ -32,7 +34,6 @@
       </form>
 
       <div class="extra-links">
-        <p>¿No tienes cuenta? <a href="{% url 'gestion_aulatec:usuario_create' %}">Regístrate aquí</a></p>
         <hr class="divider">
         <p><a href="{% url 'gestion_aulatec:home' %}">Volver al Inicio</a></p>
       </div>
