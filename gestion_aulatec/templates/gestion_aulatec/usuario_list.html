@@ -1,15 +1,13 @@
+{% extends "gestion_aulatec/base1.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Lista de Usuarios{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'css/main.css' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-</head>
-<body>
 
+{% block title %}AulaTec{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/usuarios.css' %}">
+{% endblock %}
+
+{% block content %}
 <header class="top-bar">
     <div class="logo">
         <img src="{% static 'img/aula_tec_logo.png' %}" alt="Logo" height="30">
@@ -89,6 +87,4 @@
         </div><!-- /.users-page -->
     </main>
 </div>
-
-</body>
-</html>
+{% endblock %}

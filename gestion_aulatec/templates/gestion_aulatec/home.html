@@ -1,123 +1,60 @@
+{% extends "gestion_aulatec/base0.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}AulaTec - Inicio{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'css/main.css' %}">
-</head>
-<body>
 
-    <nav class="navbar">
-        <div class="navbar__logo">
-            <a href="{% url 'gestion_aulatec:home' %}">
-                <img src="{% static 'img/aula_tec_logo.png' %}" alt="AulaTec">
-            </a>
+{% block title %}AulaTec - Inicio{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <video autoplay muted loop playsinline>
+        <source src="{% static 'mp4/1270564-hd_1920_1080_25fps.mp4' %}" type="video/mp4">
+        Tu navegador no soporta video.
+    </video>
+    <div class="overlay"></div>
+    <div class="hero-content" id="hero-content">
+        <h1>Bienvenido a AulaTec</h1>
+        <p>Transformamos la educación con tecnología e innovación digital.</p>
+        <a href="#" class="btn">Descubrir más</a>
+    </div>  
+</section>
+
+<main class="container">
+    <section class="highlights appear" id="highlights">
+        <h2 class="section-title">Proyectos destacados</h2>
+        <div class="card-grid futuristic">
+            <article class="card">
+                <img src="{% static 'img/card-1.jpeg' %}" alt="">
+                <div class="card__body">
+                    <h3>Aula de Innovación</h3>
+                    <p>Descubre cómo nuestros estudiantes aplican tecnología en proyectos reales.</p>
+                    <a href="#" class="btn btn--secondary">Ver más</a>
+                </div>
+            </article>
+            <article class="card">
+                <img src="{% static 'img/card-2.jpeg' %}" alt="">
+                <div class="card__body">
+                    <h3>Blog Estudiantil</h3>
+                    <p>Historias y artículos escritos por la comunidad académica.</p>
+                    <a href="#" class="btn btn--secondary">Explorar</a>
+                </div>
+            </article>
+            <article class="card">
+                <img src="{% static 'img/card-3.jpeg' %}" alt="">
+                <div class="card__body">
+                    <h3>Laboratorio Virtual</h3>
+                    <p>Accede a simuladores de física, química y más.</p>
+                    <a href="#" class="btn btn--secondary">Acceder</a>
+                </div>
+            </article>
         </div>
-
-        <ul class="navbar__links"> <!-- Desktop -->
-            <li><a href="{% url 'gestion_aulatec:home' %}" class="button" data-text="Inicio">
-                <span class="actual-text">&nbsp;Inicio&nbsp;</span>
-                <span aria-hidden="true" class="hover-text">&nbsp;Inicio&nbsp;</span></a>
-            </li>
-            <li><a href="#" class="button" data-text="Cursos">
-                <span class="actual-text">&nbsp;Cursos&nbsp;</span>
-                <span aria-hidden="true" class="hover-text">&nbsp;Cursos&nbsp;</span></a>
-            </li>
-            <li><a href="#" class="button" data-text="Blog">
-                <span class="actual-text">&nbsp;Blog&nbsp;</span>
-                <span aria-hidden="true" class="hover-text">&nbsp;Blog&nbsp;</span></a>
-            </li>
-            <li><a href="#" class="button" data-text="Contacto">
-                <span class="actual-text">&nbsp;Contacto&nbsp;</span>
-                <span aria-hidden="true" class="hover-text">&nbsp;Contacto&nbsp;</span></a>
-            </li>
-        </ul>   
-
-        {% if request.user.is_authenticated %}
-        <span class="navbar__user">{{ request.user.Nombres }}</span>
-        <a class="btn btn--primary" href="{% url 'gestion_aulatec:logout' %}">Salir</a>
-        {% else %}
-        <a class="btn btn--primary" href="{% url 'gestion_aulatec:login' %}">Ingresar</a>
-        {% endif %}
-
-        <!-- Botón Hamburguesa -->
-        <button class="navbar__toggle" id="menu-toggle" aria-label="Abrir menú">
-            &#9776;
-        </button>
-
-        <!-- Menú móvil -->
-        <div class="navbar__mobile" id="mobile-menu">
-            <ul>
-                <li><a href="{% url 'gestion_aulatec:home' %}">Inicio</a></li>
-                <li><a href="#">Cursos</a></li>
-                <li><a href="#">Blog</a></li>
-                <li><a href="#">Contacto</a></li>
-            </ul>
-
-            <a class="btn btn--primary" href="{% url 'gestion_aulatec:login' %}">Ingresar</a>
-        </div>
-    </nav>
-
-    <section class="hero">
-        <video autoplay muted loop playsinline>
-            <source src="{% static 'mp4/1270564-hd_1920_1080_25fps.mp4' %}" type="video/mp4">
-            Tu navegador no soporta video.
-        </video>
-        <div class="overlay"></div>
-        <div class="hero-content" id="hero-content">
-            <h1>Bienvenido a AulaTec</h1>
-            <p>Transformamos la educación con tecnología e innovación digital.</p>
-            <a href="#" class="btn">Descubrir más</a>
-        </div>  
     </section>
+</main>
+{% endblock %}
 
-    <main class="container">
-        <!-- Sección 1 -->
-        <section class="highlights appear" id="highlights">
-              <h2 class="section-title">Proyectos destacados</h2>
-
-            <div class="card-grid futuristic">
-                <!-- Ejemplo reemplazar por nuestros datos -->
-                <article class="card">
-                    <img src="{% static 'img/card-1.jpeg' %}" alt="">
-                    <div class="card__body">
-                        <h3>Aula de Innovación</h3>
-                        <p>Descubre cómo nuestros estudiantes aplican tecnología en proyectos reales.</p>
-                        <a href="#" class="btn btn--secondary">Ver más</a>
-                    </div>
-                </article>
-
-                <article class="card">
-                    <img src="{% static 'img/card-2.jpeg' %}" alt="">
-                    <div class="card__body">
-                        <h3>Blog Estudiantil</h3>
-                        <p>Historias y artículos escritos por la comunidad académica.</p>
-                        <a href="#" class="btn btn--secondary">Explorar</a>
-                    </div>
-                </article>
-
-                <article class="card">
-                    <img src="{% static 'img/card-3.jpeg' %}" alt="">
-                    <div class="card__body">
-                        <h3>Laboratorio Virtual</h3>
-                        <p>Accede a simuladores de física, química y más.</p>
-                        <a href="#" class="btn btn--secondary">Acceder</a>
-                    </div>
-                </article>
-            </div>
-        </section>
-    </main>
-
-    <!--  FOOTER  -->
-    <footer class="footer">
-        <p>&copy; 2025 AulaTec. Todos los derechos reservados.</p>
-    </footer>
-
-    <script src="{% static 'js/menu.js' %}"></script>
-    <script src="{% static 'js/script_hero.js' %}"></script>
-    <script src="{% static 'js/script_appear.js' %}"></script>
-    
-</body>
-</html>
+{% block extra_js %}
+<script src="{% static 'js/script_hero.js' %}"></script>
+<script src="{% static 'js/script_appear.js' %}"></script>
+{% endblock %}
