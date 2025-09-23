@@ -8,19 +8,7 @@
 {% endblock %}
 
 {% block content %}
-<header class="top-bar">
-    <div class="logo">
-        <img src="{% static 'img/aula_tec_logo.png' %}" alt="Logo" height="30">
-        <span>Gestión de Usuarios</span>
-    </div>
-    <nav class="top-nav">
-        <a href="{% url 'gestion_aulatec:home' %}">🏠 Inicio</a>
-        <a href="{% url 'gestion_aulatec:logout' %}">🚪 Cerrar sesión</a>
-    </nav>
-</header>
-
 <div class="wrapper">
-
     <!-- Sidebar (compartido con el dashboard) -->
     <aside class="sidebar">
         <ul class="menu">
@@ -79,8 +67,8 @@
             <div class="nav-bottom">
                 <a href="{% url 'gestion_aulatec:docente_list' %}"
                 class="btn btn-secondary">Ir a Docentes</a>
-                <a href="{% url 'gestion_aulatec:admin_dashboard' %}"
-                class="btn btn-outline">Volver al inicio</a>
+               <!-- <a href="{% url 'gestion_aulatec:admin_dashboard' %}"
+                class="btn btn-outline">Volver al inicio</a> -->
                 <a href="{% url 'gestion_aulatec:usuario_create' %}"
                 class="btn btn-primary">Crear Nuevo Usuario</a>
             </div>

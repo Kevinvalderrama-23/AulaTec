@@ -1,28 +1,15 @@
+{% extends "gestion_aulatec/base1.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Grados</title>
-    <link rel="stylesheet" href="{% static 'css/main.css' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-</head>
-<body>
 
-<header class="top-bar">
-    <div class="logo">
-        <img src="{% static 'img/aula_tec_logo.png' %}" alt="Logo" height="30">
-        <span>Gestión de Grados</span>
-    </div>
-    <nav class="top-nav">
-        <a href="{% url 'gestion_aulatec:home' %}">🏠 Inicio</a>
-        <a href="{% url 'gestion_aulatec:logout' %}">🚪 Cerrar sesión</a>
-    </nav>
-</header>
+{% block title %}AulaTec{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/grados.css' %}">
+{% endblock %}
+
+{% block content %}
 
 <div class="wrapper">
-
     <!-- Sidebar (idéntico al resto del panel) -->
     <aside class="sidebar">
         <ul class="menu">
@@ -37,9 +24,7 @@
     </aside>
 
     <main class="content">
-
         <div class="grades-page">
-
             <section class="welcome">
                 <h1>Grados Registrados</h1>
                 <p>
@@ -92,12 +77,7 @@
                 <a href="{% url 'gestion_aulatec:home' %}"
                    class="btn btn-outline">Volver al inicio</a>
             </div>
-
         </div><!-- /.grades-page -->
-
     </main>
 </div>
-
-
-</body>
-</html>
+{% endblock %}
