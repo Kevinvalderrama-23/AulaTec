@@ -25,21 +25,9 @@
                    class="btn btn-outline">Cancelar
                 </a>
             </form>
+            <a href="{% url 'gestion_aulatec:estudiante_list' %}">Volver a la lista de estudiantes</a>
         </div><!-- /.students-page -->
     </main>
-
-verificar aca borrar o no? 
-
-    <h1>{% if form.instance.pk %}Editar Estudiante{% else %}Registrar Nuevo Estudiante{% endif %}</h1>
-
-    <form method="post">
-        {% csrf_token %}
-
-        {{ form.as_p }}
-
-        <button type="submit">Guardar</button>
-    </form>
-
-    <a href="{% url 'gestion_aulatec:estudiante_list' %}">Volver a la lista de estudiantes</a>
+    
 </body>
 </html>

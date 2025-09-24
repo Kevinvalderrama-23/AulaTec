@@ -1,58 +1,95 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Docentes</title>
-</head>
-<body>
-    <h1>Docentes Registrados</h1>
-    <a href="{% url 'gestion_aulatec:docente_create' %}">Registrar Nuevo Docente</a>
-    <br><br>
-    <a href="{% url 'gestion_aulatec:usuario_list' %}">Ir a Usuarios</a> |
-    <a href="{% url 'gestion_aulatec:grado_list' %}">Ir a Grados</a> 
-    <a href="{% url 'gestion_aulatec:estudiante_list' %}">Ir a Estudiantes</a>
+{% extends "gestion_aulatec/base1.html" %}
+{% load static %}
 
-    {# Formulario de búsqueda para Docentes #}
-    <form method="GET" action="{% url 'gestion_aulatec:docente_list' %}">
-        <input type="text" name="q" placeholder="Buscar por nombre de usuario..." value="{{ request.GET.q }}">
-        <button type="submit">Buscar</button>
-        {% if request.GET.q %}
-            <a href="{% url 'gestion_aulatec:docente_list' %}">Limpiar Búsqueda</a>
-        {% endif %}
-    </form>
-    <br>
+{% block title %}AulaTec{% endblock %}
 
-    {% if docentes %}
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>ID Docente</th>
-                    <th>Usuario (Nombre)</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for docente in docentes %}
-                <tr>
-                    <td>{{ docente.IdDocente }}</td>
-                    <td>
-                        {% if docente.IdUsuario %}
-                            {{ docente.IdUsuario.Nombres }} {{ docente.IdUsuario.Apellidos }} ({{ docente.IdUsuario.Rol }})
-                        {% else %}
-                            Usuario No Asignado
-                        {% endif %}
-                    </td>
-                    <td>
-                        <a href="{% url 'gestion_aulatec:docente_update' pk=docente.IdDocente %}">Editar</a>
-                        <a href="{% url 'gestion_aulatec:docente_delete' pk=docente.IdDocente %}">Eliminar</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>No hay docentes registrados aún o no se encontraron resultados para tu búsqueda.</p>
-    {% endif %}
-</body>
-</html>
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/docente.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+    <!-- Sidebar (común a todo el panel) -->
+    <aside class="sidebar">
+        <ul class="menu">
+            <li><a href="{% url 'gestion_aulatec:admin_dashboard' %}">Resumen</a></li>
+            <li><a href="{% url 'gestion_aulatec:usuario_list' %}">👤 Usuarios</a></li>
+            <li><a href="{% url 'gestion_aulatec:grado_list' %}">🎓 Grados</a></li>
+            <li><a href="{% url 'gestion_aulatec:estudiante_list' %}">📚 Estudiantes</a></li>
+            <li><a href="{% url 'gestion_aulatec:docente_list' %}" class="active">👩‍🏫 Docentes</a></li>
+            <li><a href="{% url 'gestion_aulatec:materia_list' %}">📖 Materias</a></li>
+            <li><a href="{% url 'gestion_aulatec:matricula_list' %}">🗂️ Matrículas</a></li>
+        </ul>
+    </aside>
+
+    <main class="content">
+        <div class="docentes-page">
+            <section class="welcome">
+                <h1>Docentes Registrados</h1>
+                <p>
+                    <a href="{% url 'gestion_aulatec:docente_create' %}"
+                       class="btn btn-primary">Registrar Nuevo Docente</a>
+                    <a href="{% url 'gestion_aulatec:usuario_list' %}"
+                       class="btn btn-outline">Ir a Usuarios</a>
+                    <a href="{% url 'gestion_aulatec:grado_list' %}"
+                       class="btn btn-outline">Ir a Grados</a>
+                    <a href="{% url 'gestion_aulatec:estudiante_list' %}"
+                       class="btn btn-outline">Ir a Estudiantes</a>
+                </p>
+            </section>
+
+            <!-- Formulario de búsqueda -->
+            <form method="GET" action="{% url 'gestion_aulatec:docente_list' %}"
+                  class="search-form">
+                <input type="text" name="q" placeholder="Buscar por nombre de usuario..."
+                       value="{{ request.GET.q }}">
+                <button type="submit" class="btn btn-primary">Buscar</button>
+                {% if request.GET.q %}
+                <a href="{% url 'gestion_aulatec:docente_list' %}"
+                   class="btn btn-outline">Limpiar</a>
+                {% endif %}
+            </form>
+
+            {% if docentes %}
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>ID Docente</th>
+                        <th>Usuario (Nombre)</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for docente in docentes %}
+                    <tr>
+                        <td>{{ docente.IdDocente }}</td>
+                        <td>
+                            {% if docente.IdUsuario %}
+                                {{ docente.IdUsuario.Nombres }} {{ docente.IdUsuario.Apellidos }} ({{ docente.IdUsuario.Rol }})
+                            {% else %}
+                                <em>Usuario No Asignado</em>
+                            {% endif %}
+                        </td>
+                        <td class="actions">
+                            <a href="{% url 'gestion_aulatec:docente_update' pk=docente.IdDocente %}"
+                               class="action-link edit">Editar</a>
+                            <a href="{% url 'gestion_aulatec:docente_delete' pk=docente.IdDocente %}"
+                               class="action-link delete">Eliminar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p class="empty-msg">No hay docentes registrados aún o no se encontraron resultados.</p>
+            {% endif %}
+            
+            <div class="nav-bottom">
+                <a href="{% url 'gestion_aulatec:admin_dashboard' %}"
+                   class="btn btn-outline">Volver al inicio
+                </a>
+            </div>
+        </div><!-- /.docentes-page -->
+    </main>
+</div>
+{% endblock %}
