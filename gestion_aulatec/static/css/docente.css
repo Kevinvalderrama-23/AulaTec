@@ -109,6 +109,28 @@
     gap: 12px;
 }
 
+/* Acciones */
+.docentes-page .actions {
+    display: flex;
+    gap: 12px;
+}
+.docentes-page .actions .action-link {
+    text-decoration: none;
+    font-size: 0.9rem;
+    padding: 4px 8px;
+    border-radius: 3px;
+}
+.docentes-page .actions .edit {
+    color: #0066cc;
+    background: rgba(0, 102, 204, 0.1);
+}
+.docentes-page .actions .delete {
+    color: #d32f2f;
+    background: rgba(211, 47, 47, 0.1);
+}
+.docentes-page .actions .action-link:hover {
+    opacity: 0.8;
+}
 /* ---------- Responsividad ---------- */
 @media (max-width: 768px) {
     .docentes-page .styled-table th,
