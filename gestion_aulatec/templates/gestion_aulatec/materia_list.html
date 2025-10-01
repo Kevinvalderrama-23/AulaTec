@@ -91,7 +91,8 @@
                                 <button type="button" 
                                         class="action-link delete delete-btn"
                                         data-materia-id="{{ materia.IdMateria }}"
-                                        data-materia-name="{{ materia.NombreMateria }}">
+                                        data-materia-name="{{ materia.NombreMateria }}"
+                                        data-delete-url="{% url 'gestion_aulatec:materia_delete' pk=materia.IdMateria %}">
                                     Eliminar
                                 </button>
                             </td>
@@ -114,28 +115,28 @@
                 <a href="{% url 'gestion_aulatec:admin_dashboard' %}"
                    class="btn btn-outline">Volver al Inicio</a>
             </div>
-            <!-- Modal de Confirmación -->
-            <div id="deleteModal" class="modal-overlay" style="display: none;">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3>Confirmar Eliminación</h3>
-                        <span class="close-modal">&times;</span>
-                    </div>
-                    <div class="modal-body">
-                        <div class="icon">⚠️</div>
-                        <p>¿Estás seguro de que quieres eliminar la materia <strong id="materiaName"></strong>?</p>
-                        <div class="warning-text">
-                            ❗️ Esta acción no se puede deshacer ❗️
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-cancel">Cancelar</button>
-                        <button type="button" id="confirmDelete" class="btn btn-delete">Sí, Eliminar</button>
-                    </div>
-                </div>
-            </div>
-            <script src="{% static 'js/modal.js' %}"></script>
         </div><!-- /.materias-page -->
     </main>
 </div>
+<!-- Modal de Confirmación -->
+<div id="deleteModal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Confirmar Eliminación</h3>
+            <span class="close-modal">&times;</span>
+        </div>
+        <div class="modal-body">
+            <div class="icon">⚠️</div>
+            <p>¿Estás seguro de que quieres eliminar la materia <strong id="materiaName"></strong>?</p>
+            <div class="warning-text">
+                ❗️ Esta acción no se puede deshacer ❗️
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-cancel">Cancelar</button>
+            <button type="button" id="confirmDelete" class="btn btn-delete">Sí, Eliminar</button>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/modal_materia.js' %}"></script>
 {% endblock %}

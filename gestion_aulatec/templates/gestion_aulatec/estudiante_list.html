@@ -78,9 +78,14 @@
                         </td>
                         <td class="actions">
                             <a href="{% url 'gestion_aulatec:estudiante_update' pk=estudiante.IdEstudiante %}"
-                               class="action-link edit">Editar</a>
-                            <a href="{% url 'gestion_aulatec:estudiante_delete' pk=estudiante.IdEstudiante %}"
-                               class="action-link delete">Eliminar</a>
+                            class="action-link edit">Editar</a>
+                            <button type="button" 
+                                    class="action-link delete delete-btn"
+                                    data-estudiante-id="{{ estudiante.IdEstudiante }}"
+                                    data-estudiante-name="{% if estudiante.IdUsuario %}{{ estudiante.IdUsuario.Nombres }} {{ estudiante.IdUsuario.Apellidos }}{% else %}Usuario No Asignado{% endif %}"
+                                    data-delete-url="{% url 'gestion_aulatec:estudiante_delete' pk=estudiante.IdEstudiante %}">
+                                Eliminar
+                            </button>
                         </td>
                     </tr>
                     {% endfor %}
@@ -97,4 +102,25 @@
         </div><!-- /.students-page -->
     </main>
 </div>
+<!-- Modal de Confirmación para Estudiantes -->
+<div id="deleteModal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Confirmar Eliminación</h3>
+            <span class="close-modal">&times;</span>
+        </div>
+        <div class="modal-body">
+            <div class="icon">⚠️</div>
+            <p>¿Estás seguro de que quieres eliminar al estudiante <strong id="estudianteName"></strong>?</p>
+            <div class="warning-text">
+                ❗️ Esta acción no se puede deshacer ❗️
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-cancel">Cancelar</button>
+            <button type="button" id="confirmDelete" class="btn btn-delete">Sí, Eliminar</button>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/modal_estudiante.js' %}"></script>
 {% endblock %}
