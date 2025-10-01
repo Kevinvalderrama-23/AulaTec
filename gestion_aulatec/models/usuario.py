@@ -31,7 +31,7 @@ class CustomUserManager(BaseUserManager):
 class Usuario(AbstractBaseUser, PermissionsMixin): # Hereda de AbstractBaseUser y PermissionsMixin
     IdUsuario = models.AutoField(primary_key=True)
     TipoId = models.CharField(max_length=20)
-    NumId = models.CharField(max_length=50, unique=True)
+    NumId = models.CharField(max_length=10, unique=True)
     Nombres = models.CharField(max_length=100)
     Apellidos = models.CharField(max_length=100)
     # Contrasena ya no se define aquí directamente, AbstractBaseUser la maneja

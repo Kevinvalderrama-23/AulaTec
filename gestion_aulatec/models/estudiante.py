@@ -1,6 +1,6 @@
 from django.db import models
-from .grado import Grado
-from .usuario import Usuario
+from .Grado import Grado
+from .Usuario import Usuario
 
 class Estudiante(models.Model):
     IdEstudiante = models.AutoField(primary_key=True)
