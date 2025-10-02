@@ -82,26 +82,26 @@ WSGI_APPLICATION = 'aulatec.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-#DATABASES = {
-    #'default': {
-        #'ENGINE': 'django.db.backends.mysql',
-        #'NAME': 'aulatec',
-        #'USER': 'root',
-        #'PASSWORD': '',
-        #'HOST': 'localhost',
-        #'PORT': '3306',
-    #}
-#}
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-        'USER': '',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'aulatec',
+        'USER': 'root',
         'PASSWORD': '',
-        'HOST': '',
-        'PORT': '',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
+#DATABASES = {
+    #'default': {
+        #'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': BASE_DIR / 'db.sqlite3',
+        #'USER': '',
+        #'PASSWORD': '',
+        #'HOST': '',
+        #'PORT': '',
+    #}
+#}
 
 
 # Password validation

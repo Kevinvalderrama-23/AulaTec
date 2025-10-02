@@ -1,9 +1,9 @@
 from django.db import models
-from .docente import Docente
+from .Docente import Docente
 
 class Materia(models.Model):
     IdMateria = models.AutoField(primary_key = True, unique=True )
-    NombreMateria = models.CharField(max_length = 50)
+    NombreMateria = models.CharField(max_length = 50, unique=True)
     IdDocente = models.ForeignKey(Docente, on_delete = models.SET_NULL, null=True, blank=True) 
 
     def __str__(self):
