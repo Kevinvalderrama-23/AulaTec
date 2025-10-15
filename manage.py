@@ -41,3 +41,5 @@ if __name__ == '__main__':
 # Falta arreglar la contabilidad de estudiantes a los cursos.
 #realizar las pruebas faltantes.
 #Organizar mejor el proyecto
+
+#Estaba Organizando el formulario de la matricula,migrar la base de datos a MARIADB

@@ -1,13 +1,16 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin # Mixins para CBVs(Vistas basadas en clases)
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.views.generic import ListView, View, UpdateView, DeleteView, DetailView
 from django.urls import reverse_lazy
+from django.db import IntegrityError,transaction
+from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
 import random
 import string
 
 from gestion_aulatec.forms import MatriculaForm
-from gestion_aulatec.models import Usuario,Estudiante,Matricula
+from gestion_aulatec.models import Usuario,Estudiante,Matricula,Acudiente
 
 #funcion para generar una constrasela aleatoria segura
 def generar_contrasena_segura(longitud=12):                         
@@ -18,6 +21,7 @@ def generar_contrasena_segura(longitud=12):
 
 # Vistas CRUD Matricula
 class MatriculaCreateView(LoginRequiredMixin, UserPassesTestMixin, View):
+    form_class = MatriculaForm
     template_name = 'gestion_aulatec/matricula_form.html'
 
     def test_func(self):
@@ -34,100 +38,95 @@ class MatriculaCreateView(LoginRequiredMixin, UserPassesTestMixin, View):
 
     # Método POST: Procesa el formulario enviado
     def post(self, request, *args, **kwargs):
-        form = MatriculaForm(request.POST) 
+        form = self.form_class(request.POST) 
         if form.is_valid():
             try:
-                # 1. Crear/Obtener Usuario para el Estudiante
-                estudiante_usuario_data = {
-                    'TipoId': form.cleaned_data['estudiante_tipo_id'],
-                    'NumId': form.cleaned_data['estudiante_num_id'],
-                    'Nombres': form.cleaned_data['estudiante_nombres'],
-                    'Apellidos': form.cleaned_data['estudiante_apellidos'],
-                    'Rol': 'Estudiante',
-                    'Celular': form.cleaned_data['estudiante_celular'],
-                }
-
-                contrasena_estudiante = generar_contrasena_segura(12)    
-
-                estudiante_usuario, created_eu = Usuario.objects.get_or_create(
-                    NumId=estudiante_usuario_data['NumId'],
-                    defaults={
-                        'TipoId': estudiante_usuario_data['TipoId'],
-                        'Nombres': estudiante_usuario_data['Nombres'],
-                        'Apellidos': estudiante_usuario_data['Apellidos'],
-                        'Rol': estudiante_usuario_data['Rol'],
-                        'Celular': estudiante_usuario_data['Celular'],
+                # Usa una transacción atómica para garantizar que todo se guarde o nada se guarde.
+                with transaction.atomic():
+                    # --- 1. Crear/Obtener Usuario para el Estudiante
+                    estudiante_usuario_data = {
+                        'TipoId': form.cleaned_data['EstudianteTipoId'],
+                        'NumId': form.cleaned_data['EstudianteNumId'],
+                        'Nombres': form.cleaned_data['EstudianteNombres'],
+                        'Apellidos': form.cleaned_data['EstudianteApellidos'],
+                        'Rol': 'Estudiante',
+                        'Celular': form.cleaned_data['EstudianteCelular'],
                     }
-                )
-                if created_eu:
-                    estudiante_usuario.set_password(contrasena_estudiante)
-                    estudiante_usuario.save()
-                else:
-                    for key, value in estudiante_usuario_data.items():
-                        setattr(estudiante_usuario, key, value)
-                    estudiante_usuario.save()
 
-                # 2. Crear/Obtener el objeto Estudiante
-                estudiante, created_eu = Estudiante.objects.get_or_create(
-                    IdUsuario=estudiante_usuario,
-                    defaults={}
-                )
+                    contrasena_estudiante = generar_contrasena_segura(12) 
 
-                # 5. Crear la Matrícula (ahora con los campos booleanos)
-                num_matricula = f"MAT-{form.cleaned_data['anio_lectivo']}-{random.randint(10000, 99999)}"
-                while Matricula.objects.filter(NumMatricula=num_matricula).exists():
-                     num_matricula = f"MAT-{form.cleaned_data['anio_lectivo']}-{random.randint(10000, 99999)}"
-
-                matricula = Matricula(
-                    NumMatricula=num_matricula,
-                    IdEstudiante=estudiante, # El objeto estudiante ya fue creado/obtenido arriba
-                    IdGrado=form.cleaned_data['IdGrado'], # Accede al campo del form directamente
-                    anio_lectivo=form.cleaned_data['anio_lectivo'],
-                    nombre_colegio=form.cleaned_data['nombre_colegio'],
-                    fecha_nacimiento_estudiante=form.cleaned_data['fecha_nacimiento_estudiante'],
-                    lugar_nacimiento_estudiante=form.cleaned_data['lugar_nacimiento_estudiante'],
-                    barrio_vereda_estudiante=form.cleaned_data['barrio_vereda_estudiante'],
-                    eps_seguro_medico_estudiante=form.cleaned_data['eps_seguro_medico_estudiante'],
-                    tiene_condicion_medica=form.cleaned_data['tiene_condicion_medica'],
-                    especificacion_condicion_medica=form.cleaned_data['especificacion_condicion_medica'],
-                    ultimo_grado_cursado=form.cleaned_data['ultimo_grado_cursado'],
-                    institucion_anterior=form.cleaned_data['institucion_anterior'],
-                    ciudad_municipio_institucion_anterior=form.cleaned_data['ciudad_municipio_institucion_anterior'],
-                    repite_grado=form.cleaned_data['repite_grado'],
-                    requiere_apoyo_pedagogico=form.cleaned_data['requiere_apoyo_pedagogico'],
-                    autoriza_tratamiento_datos=form.cleaned_data['autoriza_tratamiento_datos'],
-
-                    # --- Asignar los campos del acudiente directamente al objeto matricula ---
-                    Acudiente_TipoId = form.cleaned_data['Acudiente_TipoId'],
-                    Acudiente_NumId = form.cleaned_data['Acudiente_NumId'],
-                    Acudiente_Nombres = form.cleaned_data['Acudiente_Nombres'],
-                    Acudiente_Apellidos = form.cleaned_data['Acudiente_Apellidos'],
-                    Acudiente_Celular = form.cleaned_data['Acudiente_Celular'],
-                    Acudiente_Parentesco = form.cleaned_data['Acudiente_Parentesco'],
-                    # --- FIN Asignación campos acudiente ---
-
-                    doc_identidad_estudiante_presentado=form.cleaned_data['doc_identidad_estudiante_presentado'],
-                    certificado_notas_anterior_presentado=form.cleaned_data['certificado_notas_anterior_presentado'],
-                    fotocopia_carnet_vacunacion_presentado=form.cleaned_data['fotocopia_carnet_vacunacion_presentado'],
-                    fotocopia_eps_seguro_medico_presentado=form.cleaned_data['fotocopia_eps_seguro_medico_presentado'],
-                    fotos_tamano_documento_presentadas=form.cleaned_data['fotos_tamano_documento_presentadas'],
-                    certificado_medico_presentado=form.cleaned_data['certificado_medico_presentado'],
-                    copia_cedula_acudiente_presentado=form.cleaned_data['copia_cedula_acudiente_presentado'],
-                    comprobante_residencia_acudiente_presentado=form.cleaned_data['comprobante_residencia_acudiente_presentado'],
+                    estudiante_usuario, created_eu = Usuario.objects.get_or_create(
+                        NumId=estudiante_usuario_data['NumId'],
+                        defaults=estudiante_usuario_data
                     )
-                matricula.save()
+                    
+                    if created_eu:
+                        estudiante_usuario.set_password(contrasena_estudiante)
+                        estudiante_usuario.save()
+                    # Nota: si el usuario ya existe, no se actualiza la contraseña ni se guarda aquí.
+                    # Se asume que el usuario ya tiene una contraseña y sus datos ya están correctos.
 
-                messages.success(request, f'Matrícula {matricula.NumMatricula} creada con éxito para {estudiante.IdUsuario.Nombres}.')
-                messages.info(request, f'Contraseña inicial estudiante (C.I.: {estudiante.IdUsuario.NumId}): {contrasena_estudiante}.')
+                    # --- 2. Crear/Obtener el objeto Estudiante
+                    estudiante, created_e = Estudiante.objects.get_or_create(
+                        IdUsuario=estudiante_usuario,
+                        defaults={}
+                    )
 
-                return redirect(reverse_lazy('gestion_aulatec:matricula_list'))
+                    # --- 3. Crear o encontrar el Acudiente
+                    acudiente_data = {
+                        'TipoId': form.cleaned_data['AcudienteTipoId'],
+                        'NumId': form.cleaned_data['AcudienteNumId'],
+                        'Nombres': form.cleaned_data['AcudienteNombres'],
+                        'Apellidos': form.cleaned_data['AcudienteApellidos'],
+                        'Celular': form.cleaned_data['AcudienteCelular'],
+                        'Parentesco': form.cleaned_data['AcudienteParentesco'],
+                    }
+                    
+                    # Usa get_or_create para evitar duplicar acudientes
+                    acudiente, created_a = Acudiente.objects.get_or_create(
+                        NumId=acudiente_data['NumId'],
+                        defaults=acudiente_data
+                    )
+
+                    # Si el acudiente ya existía, actualiza sus datos por si cambiaron
+                    if not created_a:
+                        # Usar setattr para actualizar dinámicamente
+                        for key, value in acudiente_data.items():
+                            setattr(acudiente, key, value)
+                        acudiente.save()
+
+                    # --- 4. Crear la Matrícula y asignar el Acudiente
+                    num_matricula = f"MAT-{form.cleaned_data['AnioLectivo']}-{random.randint(10000, 99999)}"
+                    while Matricula.objects.filter(NumMatricula=num_matricula).exists():
+                        num_matricula = f"MAT-{form.cleaned_data['AnioLectivo']}-{random.randint(10000, 99999)}"
+
+                    matricula = form.save(commit=False)
+                    matricula.NumMatricula = num_matricula
+                    matricula.IdEstudiante = estudiante
+                    matricula.IdAcudiente = acudiente # Asignación del objeto Acudiente
+                    matricula.save()
+
+                    estudiante.IdGrado = matricula.IdGrado
+                    estudiante.save()
+
+                    messages.success(request, f'Matrícula {matricula.NumMatricula} creada con éxito para {estudiante.IdUsuario.Nombres}.')
+                    messages.info(request, f'Contraseña inicial estudiante (C.I.: {estudiante.IdUsuario.NumId}): {contrasena_estudiante}.')
+                    
+                    return redirect(reverse_lazy('gestion_aulatec:matricula_list'))
+            
+            except IntegrityError as e:
+                # Maneja errores de integridad (ej. número de documento duplicado)
+                messages.error(request, f'Error al guardar la matrícula: {e}. Es posible que un estudiante o acudiente con este número de identificación ya exista.')
+                return render(request, self.template_name, {'form': form})
+            
             except Exception as e:
-                messages.error(request, f'Ocurrió un error al guardar la matrícula: {e}')
+                # Maneja cualquier otro error inesperado
+                messages.error(request, f'Ocurrió un error inesperado al guardar la matrícula: {e}')
                 return render(request, self.template_name, {'form': form})
         else:
             messages.error(request, 'Por favor, corrige los errores en el formulario.')
             return render(request, self.template_name, {'form': form})
-            
+        
 # Listar Matriculas.
 # Esta parte también tiene un pequeño ajuste, aunque no es la causa del error actual
 class MatriculaListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -186,3 +185,23 @@ class MatriculaDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         response = super().form_valid(form)
         messages.success(self.request, f'La matrícula "{self.object.NumMatricula}" ha sido eliminada exitosamente.')
         return response
+    
+@login_required
+@require_POST
+def toggle_matricula_activa (request, pk):
+    if not request.user.Rol == 'Administrador':
+        messages.error(request, 'No tienes permiso para cambiar el estado de la matrícula.')
+        return redirect('gestion_aulatec:matricula_list')
+
+    matricula = get_object_or_404(Matricula, pk=pk)
+        
+    # 1. Toglea el valor de Activa (True -> False, False -> True)
+    matricula.Activa = not matricula.Activa
+    matricula.save()
+        
+    # 2. Prepara el mensaje de éxito
+    status = "activa" if matricula.Activa else "inactiva"
+    messages.success(request, f"Matrícula {matricula.NumMatricula} marcada como {status} correctamente.")
+            
+    # 3. Redirige de vuelta a la lista
+    return redirect('gestion_aulatec:matricula_list')
