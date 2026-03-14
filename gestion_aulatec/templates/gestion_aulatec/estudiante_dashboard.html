@@ -1,30 +1,49 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Estudiante</title>
+    <title>{% block title %}AulaTec{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/dashboard_est.css' %}">
 </head>
 <body>
-    <h1>Panel de Estudiante</h1>
-    <p>Bienvenido, {{ request.user.Nombres }} {{ request.user.Apellidos }}. Tienes rol de Estudiante.</p>
-    <p><a href="{% url 'gestion_aulatec:home' %}">Volver al Inicio</a></p>
-    <p><a href="{% url 'gestion_aulatec:logout' %}">Cerrar Sesión</a></p>
+    <div class="dashboard-container">
 
-    <h2>Mi Información de Estudiante</h2>
-    {% if estudiante_perfil %}
-        {% with estudiante=estudiante_perfil.first %}
-            <p><strong>Número de Identificación:</strong> {{ estudiante.IdUsuario.NumId }}</p>
-            <p><strong>Grado Asignado:</strong>
-                {% if estudiante.IdGrado %}
-                    {{ estudiante.IdGrado.NumGrado }}{{ estudiante.IdGrado.NumCurso|default:"" }}
-                {% else %}
-                    Sin Grado Asignado
-                {% endif %}
-            </p>
+        <!-- Encabezado -->
+        <div class="dashboard-header">
+            <h1>Panel de Estudiante</h1>
+            <div class="action-buttons">
+                <a href="{% url 'gestion_aulatec:home' %}">🏠 Inicio</a>
+                <a href="{% url 'gestion_aulatec:logout' %}">🚪 Cerrar Sesión</a>
+            </div>
+        </div>
+
+        <!-- Bienvenida -->
+        <p class="welcome">
+            Bienvenido, <b>{{ request.user.Nombres }} {{ request.user.Apellidos }}</b>.  
+            Tienes rol de <b>Estudiante</b>.
+        </p>
+
+        <!-- Información -->
+        <h2>Mi Información de Estudiante</h2>
+        {% if estudiante_perfil %}
+            {% with estudiante=estudiante_perfil.first %}
+            <div class="student-info">
+                <p><strong>Número de Identificación:</strong> {{ estudiante.IdUsuario.NumId }}</p>
+                <p><strong>Grado Asignado:</strong>
+                    {% if estudiante.IdGrado %}
+                        {{ estudiante.IdGrado.NumGrado }}{{ estudiante.IdGrado.NumCurso|default:"" }}
+                    {% else %}
+                        Sin Grado Asignado
+                    {% endif %}
+                </p>
+            </div>
             {% endwith %}
-    {% else %}
-        <p>Tu perfil de estudiante aún no ha sido creado o asignado.</p>
-    {% endif %}
+        {% else %}
+            <p>Tu perfil de estudiante aún no ha sido creado o asignado.</p>
+        {% endif %}
+
+    </div>
 </body>
 </html>

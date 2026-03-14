@@ -27,7 +27,7 @@ class UsuarioCreateView(CreateView):
     model = Usuario
     form_class = UsuarioForm
     template_name = 'gestion_aulatec/usuario_form.html'
-    success_url = reverse_lazy('gestion_aulatec:login') # Redirige al login después de crear
+    success_url = reverse_lazy('gestion_aulatec:usuario_list') # Redirige al login después de crear
 
     def form_valid(self, form):
         usuario = form.save(commit=False)

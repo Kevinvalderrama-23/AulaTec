@@ -1,5 +1,5 @@
 from django.db import models
-from .Docente import Docente
+from .docente import Docente
 
 class Materia(models.Model):
     IdMateria = models.AutoField(primary_key = True, unique=True )

@@ -4,14 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Iniciar Sesión{% endblock %}</title>
+    <title>{% block title %}AulaTec{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
 </head>
 <body>
 
   <section class="login-page">
     <div class="login-left">
-        <img class="brand" src="{% static 'img/aula_tec_logo.jpeg' %}" alt="AulaTec">
+      <a href="{% url 'gestion_aulatec:home' %}">
+        <img src="{% static 'img/aula_tec_logo.png' %}" alt="AulaTec">
+      </a>
         <p class="description">
         Transformamos la educación con tecnología, innovación y pasión por enseñar.
       </p>
@@ -32,9 +35,10 @@
       </form>
 
       <div class="extra-links">
-        <p>¿No tienes cuenta? <a href="{% url 'gestion_aulatec:usuario_create' %}">Regístrate aquí</a></p>
         <hr class="divider">
         <p><a href="{% url 'gestion_aulatec:home' %}">Volver al Inicio</a></p>
+        <!--<a href="{% url 'gestion_aulatec:usuario_create' %}"
+                class="btn btn-primary">Crear Nuevo Usuario</a>-->
       </div>
     </div>
   </section>

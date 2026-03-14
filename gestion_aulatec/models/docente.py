@@ -1,5 +1,5 @@
 from django.db import models
-from .Usuario import Usuario
+from .usuario import Usuario
 
 class Docente(models.Model):
     IdDocente = models.AutoField(primary_key = True)

@@ -1,5 +1,8 @@
 from django.test import TestCase
+<<<<<<< HEAD
+=======
 from django.urls import reverse
+
 # Create your tests here.
 from .models import Usuario,Grado,Estudiante,Docente,Materia
 #Casos de pruebas para la creación de usuarios.

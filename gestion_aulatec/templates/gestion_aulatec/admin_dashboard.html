@@ -1,78 +1,64 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Administrador</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f4f8;
-            color: #333;
-        }
+{% extends "gestion_aulatec/base1.html" %}
+{% load static %}
 
-        .container {
-            max-width: 700px;
-            margin: 50px auto;
-            background-color: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
+{% block title %}AulaTec{% endblock %}
 
-        h1, h2 {
-            color: #2c3e50;
-        }
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/admin.css' %}">
+{% endblock %}
 
-        a {
-            color: #2980b9;
-            text-decoration: none;
-            font-weight: bold;
-        }
+{% block content %}
+    <div class="wrapper">
+        <aside class="sidebar">
+            <ul class="menu">
+                <li><a href="" class="active">Resumen</a></li>
+                <li><a href="{% url 'gestion_aulatec:usuario_list' %}">👤 Usuarios</a></li>
+                <li><a href="{% url 'gestion_aulatec:grado_list' %}">🎓 Grados</a></li>
+                <li><a href="{% url 'gestion_aulatec:estudiante_list' %}">📚 Estudiantes</a></li>
+                <li><a href="{% url 'gestion_aulatec:docente_list' %}">👩‍🏫 Docentes</a></li>
+                <li><a href="{% url 'gestion_aulatec:materia_list' %}">📖 Materias</a></li>
+                <li><a href="{% url 'gestion_aulatec:matricula_list' %}">🗂️ Matrículas</a></li>
+            </ul>
+        </aside>
 
-        a:hover {
-            color: #1abc9c;
-        }
+        <main class="content">
+            <section class="welcome">
+                <h1>¡Bienvenido, {{ request.user.Nombres }} {{ request.user.Apellidos }}!</h1>
+                <p>Tienes permisos de <strong>Administrador</strong>. Desde aquí puedes gestionar todo lo relacionado con el colegio.</p>
+            </section>
 
-        ul {
-            list-style: none;
-            padding: 0;
-        }
+            <section class="cards">
+                <!-- Cada tarjeta representa una entidad que se puede administrar -->
+                <a href="{% url 'gestion_aulatec:usuario_list' %}" class="card">
+                    <h2>Usuarios</h2>
+                    <p>👤 Gestiona cuentas de acceso.</p>
+                </a>
 
-        li {
-            margin-bottom: 12px;
-        }
+                <a href="{% url 'gestion_aulatec:grado_list' %}" class="card">
+                    <h2>Grados</h2>
+                    <p>🎓 Organiza los niveles educativos.</p>
+                </a>
 
-        .nav-links {
-            margin-top: 20px;
-        }
+                <a href="{% url 'gestion_aulatec:estudiante_list' %}" class="card">
+                    <h2>Estudiantes</h2>
+                    <p>📚 Administra la información académica.</p>
+                </a>
 
-        .nav-links p {
-            margin: 5px 0;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Panel de Administrador</h1>
-        <p>Bienvenido, <strong>{{ request.user.Nombres }} {{ request.user.Apellidos }}</strong>. Tienes permisos de Administrador.</p>
-        
-        <div class="nav-links">
-            <!--<p><a href="{% url 'gestion_aulatec:home' %}">🏠 Volver al Inicio</a></p>-->
-            <p><a href="{% url 'gestion_aulatec:logout' %}">🚪 Cerrar Sesión</a></p>
-        </div>
+                <a href="{% url 'gestion_aulatec:docente_list' %}" class="card">
+                    <h2>Docentes</h2>
+                    <p>👩‍🏫 Controla el cuerpo docente.</p>
+                </a>
 
-        <h2>Gestión de Usuarios</h2>
-        <ul>
-            <li><a href="{% url 'gestion_aulatec:usuario_list' %}">👤 Ver y Gestionar Usuarios</a></li>
-            <li><a href="{% url 'gestion_aulatec:grado_list' %}">🎓 Ver y Gestionar Grados</a></li>
-            <li><a href="{% url 'gestion_aulatec:estudiante_list' %}">📚 Ver y Gestionar Estudiantes</a></li>
-            <li><a href="{% url 'gestion_aulatec:docente_list' %}">👩‍🏫 Ver y Gestionar Docentes</a></li>
-            <li><a href="{% url 'gestion_aulatec:materia_list' %}">📖 Ver y Gestionar Materias</a></li>
-            <li><a href="{% url 'gestion_aulatec:matricula_list' %}">📖 Ver y Gestionar Matriculas</a></li>
-        </ul>
+                <a href="{% url 'gestion_aulatec:materia_list' %}" class="card">
+                    <h2>Materias</h2>
+                    <p>📖 Define los cursos ofrecidos.</p>
+                </a>
+
+                <a href="{% url 'gestion_aulatec:matricula_list' %}" class="card">
+                    <h2>Matrículas</h2>
+                    <p>🗂️ Registra inscripciones.</p>
+                </a>
+            </section>
+        </main>
     </div>
-</body>
-</html>
+{% endblock %}
